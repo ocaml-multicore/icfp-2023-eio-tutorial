@@ -14,9 +14,9 @@ RUN opam pin -yn --with-version=3.13.0 vendor/ocaml-git
 RUN opam install --switch=tsan --deps-only -t .
 
 FROM base as ocaml510fp
-RUN opam switch create 5.1.0~rc1+fp ocaml-variants.5.1.0~rc1+options ocaml-option-fp
+RUN opam switch create 5.1.0~rc2+fp ocaml-variants.5.1.0~rc2+options ocaml-option-fp
 RUN opam pin -yn --with-version=3.13.0 vendor/ocaml-git
-RUN opam install --switch=5.1.0~rc1+fp --deps-only -t .
+RUN opam install --switch=5.1.0~rc2+fp --deps-only -t .
 
 COPY --from=tsan /home/opam/.opam/tsan /home/opam/.opam/tsan
 RUN sed -i s/\\\"5.1\\\"\\\]/\\\"5.1\\\"\\\ \\\"tsan\\\"\\\]/ ../.opam/config
