@@ -1,0 +1,3 @@
+(executable
+  (name main)
+  (libraries eio_main cohttp-eio opam-format opam-0install git-eio fmt.cli logs.cli fmt.tty logs.fmt))

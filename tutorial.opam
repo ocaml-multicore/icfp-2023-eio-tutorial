@@ -1,0 +1,41 @@
+opam-version: "2.0"
+maintainer: "No maintainer"
+authors: ["Thomas Leonard"]
+homepage: "No homepage"
+bug-reports: "No issue tracker"
+synopsis: "Lwt to Eio tutorial"
+depends: [
+  "dune" {>= "3.9"}
+  "ocaml" {>= "5.0.0"}
+  "eio_main" {>= "0.12"}
+  "lwt_eio" {>= "0.5"}
+  "logs" {>= "0.7.0"}
+  "fmt" {>= "0.9.0"}
+  "cmdliner" {>= "1.2.0"}
+  "opam-0install" {>= "0.4.3"}
+
+  # cohttp
+  "uri-sexp"
+  "re" {>= "1.9.0"}
+  "uri" {>= "2.0.0"}
+  "sexplib0"
+  "ppx_sexp_conv" {>= "v0.13.0"}
+  "stringext"
+  "base64" {>= "3.1.0"}
+
+  # cohttp-lwt
+  "lwt" {>= "2.5.0"}
+  "logs"
+
+  # conduit-lwt-unix
+  "conduit-lwt" {>= "5.0.0"}
+  "conduit-lwt-unix" {>= "5.0.0"}
+  "magic-mime"
+
+  # "cohttp-eio"
+
+  "git-unix"
+]
+build: [
+  [ "dune" "build" "-p" name "-j" jobs "@install" "@runtest" {with-test} "@doc" {with-doc} ]
+]

@@ -1,0 +1,20 @@
+[submodule "vendor/eio"]
+	path = vendor/eio
+	url = https://github.com/talex5/eio.git
+	branch = hack
+[submodule "vendor/lwt_eio"]
+	path = vendor/lwt_eio
+	url = https://github.com/talex5/lwt_eio.git
+	branch = eio-0.12-types
+[submodule "vendor/ocaml-git"]
+	path = vendor/ocaml-git
+	url = https://github.com/talex5/ocaml-git.git
+	branch = eio-minimal
+[submodule "vendor/opam-0install-solver"]
+	path = vendor/opam-0install-solver
+	url = https://github.com/talex5/opam-0install-solver.git
+	branch = atomic-ids
+[submodule "vendor/ocaml-cohttp"]
+	path = vendor/ocaml-cohttp
+	url = https://github.com/talex5/ocaml-cohttp.git
+	branch = eio

@@ -1,0 +1,2 @@
+(dirs (:standard \ opam-repository))
+(vendored_dirs vendor)

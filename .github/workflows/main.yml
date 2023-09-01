@@ -1,0 +1,15 @@
+name: Main workflow
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - name: Build the Docker image
+      run: docker build .
