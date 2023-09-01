@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+	"name": "Debian",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	"build":{ "dockerfile": "../Dockerfile" },
+
+	"containerUser": "opam",
+
+	"postCreateCommand": "sudo sysctl -w kernel.perf_event_paranoid=-1 kernel.kptr_restrict=0",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+
+	"customizations": {
+		"vscode": {
+				"extensions": [
+						"ocamllabs.ocaml-platform",
+						"docker"
+				]
+		}
+	},
+
+	"runArgs": ["--privileged", "--platform=linux/amd64" ]
+}
