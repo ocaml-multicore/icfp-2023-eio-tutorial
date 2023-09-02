@@ -5,22 +5,14 @@ module Store = struct
   module Search_unsafe = Git_eio.Search.Make (Digestif.SHA1) (Store_unsafe)
   module Value = Store_unsafe.Value
 
-  let lock = Mutex.create ()
-  let with_lock fn =
-    Mutex.lock lock;
-    match fn () with
-    | x -> Mutex.unlock lock; x
-    | exception ex ->
-      let bt = Printexc.get_raw_backtrace () in
-      Mutex.unlock lock;
-      Printexc.raise_with_backtrace ex bt
+  let lock = Eio.Mutex.create ()
 
   let find store hash path =
-    with_lock @@ fun () ->
+    Eio.Mutex.use_ro lock @@ fun () ->
     Search_unsafe.find store hash path
 
   let read store hash =
-    with_lock @@ fun () ->
+    Eio.Mutex.use_ro lock @@ fun () ->
     Store_unsafe.read store hash
 
   let pp_error = Store_unsafe.pp_error
@@ -48,7 +40,7 @@ let read_package store pkg hash =
         let blob = Store.Value.Blob.to_string blob in
         begin
           try
-            Opam_lock.use @@ fun () ->
+            Eio.Mutex.use_ro Opam_lock.v @@ fun () ->
             OpamFile.OPAM.read_from_string blob
           with ex ->
             Fmt.failwith "Error parsing %s: %s" (OpamPackage.to_string pkg) (Printexc.to_string ex)

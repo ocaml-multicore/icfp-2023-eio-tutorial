@@ -22,7 +22,7 @@ let env t pkg v =
     | x -> t.env x
 
 let filter_deps t pkg f =
-  Opam_lock.use @@ fun () ->
+  Eio.Mutex.use_ro Opam_lock.v @@ fun () ->
   let dev = OpamPackage.Version.compare (OpamPackage.version pkg) dev = 0 in
   f
   |> OpamFilter.partial_filter_formula (env t pkg)
