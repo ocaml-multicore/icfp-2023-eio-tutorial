@@ -56,7 +56,7 @@ The `compare/parsing.ml` example opens `/dev/zero` and reads a load of data from
 Eio is much faster, even though it's still only using one core:
 
 ```
-$ dune exec -- ./parsing.exe
+$ dune exec -- ./compare/parsing.exe
 Eio took 0.35 s                    
 Lwt took 1.46 s
 Eio took 0.35 s
@@ -71,7 +71,7 @@ With Eio, we can also use multiple domains for more performance.
 `parsing_par` does the test 4 times in parallel:
 
 ```
-$ dune exec -- ./parsing_par.exe
+$ dune exec -- ./compare/parsing_par.exe
 Eio took 0.40 s                    
 Lwt took 5.16 s
 Eio took 0.40 s
@@ -88,6 +88,8 @@ we can use `perf record -g` to profile it:
 ```
 dune build -- ./compare/perf.exe && perf record -g ./_build/default/compare/perf.exe
 ```
+
+Note: if using Docker, you'll need to run with `--privileged` to avoid getting `Operation not permitted`.
 
 The results show that we spent 50% of the time doing work in Lwt, but we've lost the task1/task2 distinction.
 As before, the stack-trace only records that a leaf function was resumed by Lwt.

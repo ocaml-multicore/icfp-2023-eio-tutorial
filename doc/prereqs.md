@@ -24,7 +24,7 @@ The dependencies needed for the example program are given in the `tutorial.opam`
 opam install --deps-only -t .
 ```
 
-The application also requires a copy of opam-repository:
+The application also requires a copy of opam-repository (note: if using the Docker build below, this isn't needed as the Docker image already has a copy):
 
 ```sh
 git clone https://github.com/ocaml/opam-repository.git
@@ -55,6 +55,8 @@ sudo apt install libunwind-dev
 opam switch create tsan ocaml-option-tsan
 ```
 Warning: you will need plently of memory to compile packages in this switch, and it may fail silently if there isn't enough.
+
+The Docker image includes a switch with ThreadSanitizer installed automatically.
 
 ## Next
 
