@@ -54,6 +54,10 @@ This code relies on the fact that once we've seen that the commit we want isn't 
 we can set `packages_cache` to a lazy value that will compute it atomically.
 
 We could fix that by adding a mutex around this code.
+In this case we could use a plain `Stdlib.Mutex`,
+since we won't be switching fibers between checking the cache and putting the lazy value in it,
+but it's safest to use `Eio.Mutex` anyway,
+which handles that (by having the fiber wait for the lock, rather than raising an exception).
 
 ## Using a worker pool for solves
 
@@ -300,13 +304,18 @@ We see most threads are just waiting to be woken up (presumably they are waiting
 
 ## Olly
 
-Another possibility is the [olly][] tool:
+OCaml 5.1 adds support for custom events, which can be useful to see what an Eio program is doing.
+However, 5.1 hasn't been released yet and so the required support hasn't been merged yet.
+
+To try it, you'd need to apply [Eio PR#554](https://github.com/ocaml-multicore/eio/pull/554) to generate
+events, turn on tracing in Eio, and use a patched version of the [olly][] tool:
 
 ```
 opam pin runtime_events_tools 'https://github.com/TheLortex/runtime_events_tools.git#custom-events-without-eio'
 ```
 
-However, this has some bugs at the moment.
+However, there are some bugs that make this less useful at the moment;
+e.g. you'll need to find a fix for https://github.com/tarides/runtime_events_tools/issues/20.
 
 ## Flame graphs
 
@@ -322,14 +331,6 @@ sudo /usr/sbin/offcputime-bpfcc -df -p (pgrep -f server/main.exe) 2 > out.stacks
 Again, this shows a large amount of time waiting for mutexes.
 
 See: https://www.brendangregg.com/flamegraphs.html
-
-## Reducing locking overhead
-
-We're taking two locks for each package at present (the git-eio lock and the opam lock).
-We can reduce the locking overhead by just taking one lock, around the whole of `get_versions`.
-However, this appears to make little difference.
-
-In fact, even with no locks at all it's still 5.13 s!
 
 
 [olly]: https://github.com/tarides/runtime_events_tools
