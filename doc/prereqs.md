@@ -3,13 +3,13 @@
 You will need OCaml 5.1 or later, which can be installed using [opam](https://opam.ocaml.org/):
 
 ```sh
-opam switch create 5.1.0~rc2
+opam switch create 5.1.0~rc3
 ```
 
 For profiling with `perf` (Linux-only), it may be helpful to use a compiler with frame-pointers enabled instead, like this:
 
 ```sh
-opam switch create 5.1.0~rc2+fp ocaml-variants.5.1.0~rc2+options ocaml-option-fp
+opam switch create 5.1.0~rc3+fp ocaml-variants.5.1.0~rc3+options ocaml-option-fp
 ```
 
 This repository uses Git submodules. Make sure they're enabled with:
@@ -52,9 +52,9 @@ It takes a while to build, so it's a good idea to do that ahead of time.
 For finding races, you might also want a compiler with `tsan` enabled (currently this uses OCaml 5.2-trunk):
 ```sh
 sudo apt install libunwind-dev
-opam switch create tsan ocaml-option-tsan
+opam switch create 5.1.0~rc3+tsan
 ```
-Warning: you will need plently of memory to compile packages in this switch, and it may fail silently if there isn't enough.
+Warning: you will need plenty of memory to compile some packages on this switch, and the build will fail if it runs out of memory.
 
 The Docker image includes a switch with ThreadSanitizer installed automatically.
 
