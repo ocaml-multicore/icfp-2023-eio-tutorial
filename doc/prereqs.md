@@ -56,7 +56,7 @@ opam switch create 5.1.0~rc3+tsan
 ```
 Warning: you will need plenty of memory to compile some packages on this switch, and the build will fail if it runs out of memory.
 
-The Docker image includes a switch with ThreadSanitizer installed automatically.
+The Docker image includes commented-out blocks that install a switch with ThreadSanitizer. Please uncomment the two blocks to try this. Note that at time of writing this does not work on M1/M2 macs.
 
 ## Next
 

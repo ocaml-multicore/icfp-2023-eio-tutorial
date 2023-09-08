@@ -5,12 +5,16 @@ RUN cd ~/opam-repository && git fetch origin master && git reset --hard afb1f0d6
 WORKDIR src
 RUN sudo apt install -y libunwind-dev linux-perf
 
-FROM base as tsan
-RUN opam switch create 5.1.0~rc3+tsan
-COPY vendor/ocaml-git/*.opam vendor/ocaml-git/
-RUN opam pin -yn --with-version=3.13.0 vendor/ocaml-git
-COPY tutorial.opam .
-RUN opam install --deps-only -t .
+# 
+# To try tsan, uncomment the following block and ALSO the block below
+# Note that at time writing this doesn't work on M1/M2 macs
+#
+#FROM base as tsan
+#RUN opam switch create 5.1.0~rc3+tsan
+#COPY vendor/ocaml-git/*.opam vendor/ocaml-git/
+#RUN opam pin -yn --with-version=3.13.0 vendor/ocaml-git
+#COPY tutorial.opam .
+#RUN opam install --deps-only -t .
 
 FROM base as ocaml510fp
 RUN opam switch create 5.1.0~rc3+fp ocaml-variants.5.1.0~rc3+options ocaml-option-fp
@@ -19,8 +23,11 @@ RUN opam pin -yn --with-version=3.13.0 vendor/ocaml-git
 COPY tutorial.opam .
 RUN opam install --switch=5.1.0~rc3+fp --deps-only -t .
 
-COPY --from=tsan /home/opam/.opam/5.1.0~rc3+tsan /home/opam/.opam/5.1.0~rc3+tsan
-RUN sed -i 's/installed-switches: "5.1.0~rc3+fp"/installed-switches: ["5.1.0~rc3+fp" "5.1.0~rc3+tsan"]/' ../.opam/config
+#
+# Also uncomment this block to try tsan
+#
+#COPY --from=tsan /home/opam/.opam/5.1.0~rc3+tsan /home/opam/.opam/5.1.0~rc3+tsan
+#RUN sed -i 's/installed-switches: "5.1.0~rc3+fp"/installed-switches: ["5.1.0~rc3+fp" "5.1.0~rc3+tsan"]/' ../.opam/config
 
 RUN opam install ocaml-lsp-server ocamlformat
 ENTRYPOINT [ "opam", "exec", "--" ]
