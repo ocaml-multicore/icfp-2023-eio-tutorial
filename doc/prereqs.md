@@ -3,13 +3,13 @@
 You will need OCaml 5.1 or later, which can be installed using [opam](https://opam.ocaml.org/):
 
 ```sh
-opam switch create 5.1.0~rc2
+opam switch create 5.1.0~rc3
 ```
 
 For profiling with `perf` (Linux-only), it may be helpful to use a compiler with frame-pointers enabled instead, like this:
 
 ```sh
-opam switch create 5.1.0~rc2+fp ocaml-variants.5.1.0~rc2+options ocaml-option-fp
+opam switch create 5.1.0~rc3+fp ocaml-variants.5.1.0~rc3+options ocaml-option-fp
 ```
 
 This repository uses Git submodules. Make sure they're enabled with:
