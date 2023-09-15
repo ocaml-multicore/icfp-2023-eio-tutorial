@@ -1,7 +1,7 @@
 FROM --platform=linux/amd64 ocaml/opam:debian-12-opam as base
 RUN sudo ln -sf /usr/bin/opam-2.1 /usr/bin/opam
 ENV OPAMYES="1" OPAMCONFIRMLEVEL="unsafe-yes" OPAMERRLOGLEN="0" OPAMPRECISETRACKING="1"
-RUN cd ~/opam-repository && git fetch origin master && git reset --hard 4669e827d5c1b4ffb49782d9bd706e9395ad84a3 && opam update
+RUN cd ~/opam-repository && git fetch origin master && git reset --hard d8b94b939664f77f072b506a5b75f87b33e32abd && opam update
 WORKDIR src
 RUN sudo apt install -y libunwind-dev linux-perf
 

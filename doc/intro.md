@@ -224,7 +224,7 @@ For more details, see [Lambda Capabilities][].
 OCaml 5.1 allows programs to output custom events and this provides lots of
 useful information about what an Eio program is doing.
 
-At the time of writing, OCaml 5.1 hasn't been released, but see [Meio][] for a preview.
+See [Meio][] for a preview of this feature.
 To try it, you'll need to apply [Eio PR#554](https://github.com/ocaml-multicore/eio/pull/554).
 
 [Meio]: https://github.com/ocaml-multicore/meio
