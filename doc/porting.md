@@ -1,5 +1,14 @@
 # Porting an Lwt application to Eio
 
+Before starting, ensure you have this repository cloned and the dependencies installed:
+
+```sh
+git clone --recursive https://github.com/ocaml-multicore/icfp-2023-eio-tutorial.git
+cd icfp-2023-eio-tutorial
+opam install --deps-only -t .
+dune build
+```
+
 ## The example application
 
 We'll be converting a solver service, which can be found in the `server` directory.
@@ -103,7 +112,8 @@ becomes
 ```
 
 But instead, let's convert the `packages` function to Eio.
-We could just replace the Lwt promise with an Eio promise,
+We could just replace the Lwt promise with an Eio promise
+(so that `Lwt.wait ()` becomes `Eio.Promise.create ()`),
 but a more elegant solution is to use `Eio.Lazy`:
 
 ```ocaml
@@ -120,6 +130,8 @@ let packages t commit =
     t.packages_cache <- Some (commit, p);
     Eio.Lazy.force p
 ```
+
+Hint: you'll need to change the type of `t.packages_cache` too.
 
 Unlike `Stdlib.Lazy`, `Eio.Lazy` allows multiple fibers to force the value at once.
 The first fiber to do so will load it, and the others will wait.
@@ -215,6 +227,8 @@ let () =
     Term.(const main $ setup_log $ port $ opam_dir)
 ```
 
+As always after making changes, it's a good idea to run the tests again and check that it's still working.
+
 ### Taking advantage of Eio
 
 Removing `>>=`, `>|=` and `Lwt.return` from our code makes it a bit cleaner,
@@ -281,6 +295,7 @@ Hints:
 
 Then we can remove the `Lwt_eio.with_event_loop` and the dependencies on `lwt_eio` and `lwt`.
 
+Check that your final version still works by restarting the server and running `make test` again.
 You might like to compare your final version with our solution in `solutions/3-eio`.
 
 ## Next

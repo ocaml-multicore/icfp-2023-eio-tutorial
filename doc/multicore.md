@@ -128,17 +128,11 @@ solver service: internal error, uncaught exception:
                   ...
 ```
 
-If you don't get an error, try modifying `client/main.ml` to request three different packages
+If you don't get an error, try modifying the client code (in `client/main.ml`) to request three different packages
 (e.g. `lwt`, `irmin` and `bap`).
 
 To find races (and their causes) more reliably,
 you can use [ocaml-tsan](https://github.com/ocaml-multicore/ocaml-tsan).
-
-Note:
-- ocaml-tsan uses OCaml 5.2 trunk.
-  `cohttp-lwt-unix` uses `ppx_sexp_conv` which isn't compatible with this, but if you've completed the port to Eio
-  then you don't need that anyway.
-- To remove sexp support from the core cohttp library: `patch -p1 < remove-sexp.patch`
 
 ```
 WARNING: ThreadSanitizer: data race (pid=145041)
@@ -283,10 +277,10 @@ About twice as fast!
 
 However, Jon's macbook gets more reasonable results:
 ```
-                  warm  cold
-2-lwt-eio       : 6.24, 1.53
-3-eio           : 6.06, 1.51
-4-eio-multicore : 5.21, 0.55
+                  cold  warm
+2-lwt-eio       : 6.24  1.53
+3-eio           : 6.06  1.51
+4-eio-multicore : 5.21  0.55
 ```
 
 If you get unexpected performance problems, there are several tools that might prove useful:
@@ -305,13 +299,12 @@ We see most threads are just waiting to be woken up (presumably they are waiting
 ## Olly
 
 OCaml 5.1 adds support for custom events, which can be useful to see what an Eio program is doing.
-However, 5.1 hasn't been released yet and so the required support hasn't been merged yet.
 
 To try it, you'd need to apply [Eio PR#554](https://github.com/ocaml-multicore/eio/pull/554) to generate
-events, turn on tracing in Eio, and use a patched version of the [olly][] tool:
+events, turn on tracing in Eio, and use the Git version of the [olly][] tool:
 
 ```
-opam pin runtime_events_tools 'https://github.com/TheLortex/runtime_events_tools.git#custom-events-without-eio'
+opam pin runtime_events_tools https://github.com/TheLortex/runtime_events_tools.git
 ```
 
 However, there are some bugs that make this less useful at the moment;
