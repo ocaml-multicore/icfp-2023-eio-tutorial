@@ -227,7 +227,10 @@ useful information about what an Eio program is doing.
 See [Meio][] for a preview of this feature.
 To try it, you'll need to apply [Eio PR#554](https://github.com/ocaml-multicore/eio/pull/554).
 
+**Update**: You can now use [eio-trace][] instead.
+
 [Meio]: https://github.com/ocaml-multicore/meio
+[eio-trace]: https://github.com/ocaml-multicore/eio-trace
 
 ## Next
 

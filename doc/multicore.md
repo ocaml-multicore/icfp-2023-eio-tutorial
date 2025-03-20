@@ -325,6 +325,10 @@ Again, this shows a large amount of time waiting for mutexes.
 
 See: https://www.brendangregg.com/flamegraphs.html
 
+## Update
+
+For a detailed investigation of the performance of the solver service,
+see the [OCaml 5 Performance Part 2](https://roscidus.com/blog/blog/2024/07/22/performance-2/) blog post.
 
 [olly]: https://github.com/tarides/runtime_events_tools
 [magic-trace]: https://github.com/janestreet/magic-trace
